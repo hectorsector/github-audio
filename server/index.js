@@ -27,10 +27,9 @@ server.listen(port, (err) => {
     return logger.error(err.message);
   }
 });
-// briana commenting out 5/12 to try and get the node server to start correctly on heroku
-//if(isDev)
-//  logger.appStarted(port, 'http://localhost');
-//else
+if(isDev)
+  logger.appStarted(port, 'http://localhost');
+else
   logger.appStarted(port);
 
 // Apply security middlewares

@@ -50,16 +50,16 @@ var allClients = [];
 // When a socket connection is created
 io.on('connection', function (socket) {
   allClients.push(socket);
-  redis_client.incr('connected_users');
+  redis.incr('connected_users');
   socket.on('disconnect', function() {
      logger.v('Got disconnect!');
      var i = allClients.indexOf(socket);
      allClients.splice(i, 1);
-     redis_client.decr('connected_users');
+     redis.decr('connected_users');
   });
   socket.on('error', function(){
     logger.error('Got errored!');
-    redis_client.decr('connected_users');
+    redis.decr('connected_users');
   })
 });
 

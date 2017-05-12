@@ -48,7 +48,7 @@ app.get('/', function (req, res) {
 var allClients = [];
 
 // When a socket connection is created
-/* briana seeing if this will break it all  io.on('connection', function (socket) {
+io.on('connection', function (socket) {
   allClients.push(socket);
   redis_client.incr('connected_users');
   socket.on('disconnect', function() {
@@ -61,7 +61,7 @@ var allClients = [];
     logger.error('Got errored!');
     redis_client.decr('connected_users');
   })
-});*/
+});
 
 // Function to get events from GitHub API
 function fetchDataFromGithub(){

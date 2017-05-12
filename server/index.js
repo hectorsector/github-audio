@@ -87,7 +87,7 @@ function fetchDataFromGithub(){
                 }
             });
         }*/
-      });
+      };
 
     }else{
       logger.error("GitHub status code: " + response.statusCode);

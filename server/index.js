@@ -5,7 +5,7 @@ var app = express();
 var request = require("request");  // To make HTTP requests at the server side
 
 var server = require('http').Server(app);
-// briana seeing if this will break it all var io = require('socket.io')(server);
+var io = require('socket.io')(server);
 
 var helmet = require('helmet');  // To change response headers
 

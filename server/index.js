@@ -5,14 +5,13 @@ var app = express();
 var request = require("request");  // To make HTTP requests at the server side
 
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
+// briana seeing if this will break it all var io = require('socket.io')(server);
 
 var helmet = require('helmet');  // To change response headers
 
 // To temporarily store JSON data from GitHub and also
 // the number of connected users
-var redis = require("redis"),
-    redis_client = redis.createClient();
+var redis = require('redis').createClient(process.env.REDIS_URL);
 
 var path = require('path');
 
@@ -49,7 +48,7 @@ app.get('/', function (req, res) {
 var allClients = [];
 
 // When a socket connection is created
-io.on('connection', function (socket) {
+/* briana seeing if this will break it all  io.on('connection', function (socket) {
   allClients.push(socket);
   redis_client.incr('connected_users');
   socket.on('disconnect', function() {
@@ -62,7 +61,7 @@ io.on('connection', function (socket) {
     logger.error('Got errored!');
     redis_client.decr('connected_users');
   })
-});
+});*/
 
 // Function to get events from GitHub API
 function fetchDataFromGithub(){
@@ -70,24 +69,24 @@ function fetchDataFromGithub(){
     url: 'https://api.github.com/repos/githubschool/musical-octo-goggles/events',
     headers: {
       'User-Agent': 'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.65 Mobile Safari/537.36',
-      'Authorization': 'token ' + process.env.GITHUB_OAUTH_KEY
+      'Authorization': 'token' + process.env.GITHUB_OAUTH_KEY
     }
   };
   request(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       var data = JSON.parse(body);
       var stripedData = stripData(data);  // Keep only useful keys
-      allClients.forEach(function(socket){
-        if(socket != null && socket.connected == true){
-            redis_client.get('connected_users', function(err, count) {
-                if(!err && count != null){
-                    socket.volatile.json.emit('github', {data: stripedData, connected_users: count});
-                }else{
-                  logger.error(err.message);
-                }
-            });
-        }
-      });
+    //  allClients.forEach(function(socket){
+       // if(socket != null && socket.connected == true){
+          //  redis_client.get('connected_users', function(err, count) {
+              //  if(!err && count != null){
+                    // socket.volatile.json.emit('github', {data: stripedData, connected_users: count});
+              //  }else{
+                  // logger.error(err.message);
+              //  }
+          //  });
+     //   }
+   //   });
 
     }else{
       logger.error("GitHub status code: " + response.statusCode);

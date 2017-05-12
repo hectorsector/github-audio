@@ -66,12 +66,10 @@ var allClients = [];
 // Function to get events from GitHub API
 function fetchDataFromGithub(){
   var options = {
-    //url: 'https://api.github.com/repos/githubschool/musical-octo-goggles/events',
-    url: 'https://api.github.com/events',
+    url: 'https://api.github.com/repos/githubschool/musical-octo-goggles/events',
     headers: {
       'User-Agent': 'Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.65 Mobile Safari/537.36',
-      //'Authorization': 'token' + process.env.GITHUB_OAUTH_KEY
-      'Authorization': process.env.GITHUB_OAUTH_KEY
+      'Authorization': 'token' + process.env.GITHUB_OAUTH_KEY
     }
   };
   request(options, function (error, response, body) {

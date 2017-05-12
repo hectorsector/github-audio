@@ -76,17 +76,17 @@ function fetchDataFromGithub(){
     if (!error && response.statusCode == 200) {
       var data = JSON.parse(body);
       var stripedData = stripData(data);  // Keep only useful keys
-    //  allClients.forEach(function(socket){
-       // if(socket != null && socket.connected == true){
-          //  redis_client.get('connected_users', function(err, count) {
-              //  if(!err && count != null){
-                    // socket.volatile.json.emit('github', {data: stripedData, connected_users: count});
-              //  }else{
-                  // logger.error(err.message);
-              //  }
-          //  });
-     //   }
-   //   });
+      allClients.forEach(function(socket){
+        if(socket != null && socket.connected == true){
+            redis.get('connected_users', function(err, count) {
+                if(!err && count != null){
+                     socket.volatile.json.emit('github', {data: stripedData, connected_users: count});
+                }else{
+                   logger.error(err.message);
+                }
+            });
+        }
+      });
 
     }else{
       logger.error("GitHub status code: " + response.statusCode);

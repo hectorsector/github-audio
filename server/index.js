@@ -5,7 +5,7 @@ var app = express();
 var request = require("request");  // To make HTTP requests at the server side
 
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
+// briana seeing if this will break it all var io = require('socket.io')(server);
 
 var helmet = require('helmet');  // To change response headers
 
@@ -48,7 +48,7 @@ app.get('/', function (req, res) {
 var allClients = [];
 
 // When a socket connection is created
-io.on('connection', function (socket) {
+/* briana seeing if this will break it all  io.on('connection', function (socket) {
   allClients.push(socket);
   redis_client.incr('connected_users');
   socket.on('disconnect', function() {
@@ -61,7 +61,7 @@ io.on('connection', function (socket) {
     logger.error('Got errored!');
     redis_client.decr('connected_users');
   })
-});
+});*/
 
 // Function to get events from GitHub API
 function fetchDataFromGithub(){
@@ -76,6 +76,7 @@ function fetchDataFromGithub(){
     if (!error && response.statusCode == 200) {
       var data = JSON.parse(body);
       var stripedData = stripData(data);  // Keep only useful keys
+      /*socket nonsense
       allClients.forEach(function(socket){
         if(socket != null && socket.connected == true){
             redis_client.get('connected_users', function(err, count) {
@@ -85,7 +86,7 @@ function fetchDataFromGithub(){
                   logger.error(err.message);
                 }
             });
-        }
+        }*/
       });
 
     }else{
